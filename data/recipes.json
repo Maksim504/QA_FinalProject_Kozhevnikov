@@ -1,0 +1,57 @@
+{
+  "recipes": [
+    {
+      "id": "sharlotka_1000menu",
+      "name": "Простая шарлотка",
+      "url": "https://1000.menu/cooking/5227-prostaya-sharlotka",
+      "source": "1000.menu",
+      "importable": true
+    },
+    {
+      "id": "syrniki_1000menu",
+      "name": "Сырники классические",
+      "url": "https://1000.menu/cooking/17890-syrniki-klassicheskie-iz-tvoroga-na-skovorode",
+      "source": "1000.menu",
+      "importable": true
+    },
+    {
+      "id": "kotlety_1000menu",
+      "name": "Котлеты из фарша классические",
+      "url": "https://1000.menu/cooking/27902-kotlety-iz-farsha-klassicheskie-na-skovorode",
+      "source": "1000.menu",
+      "importable": true
+    },
+    {
+      "id": "sharlotka_eda",
+      "name": "Шарлотка с яблоками",
+      "url": "https://eda.ru/recepty/vypechka-deserty/sharlotka-s-yablokami-17649",
+      "source": "eda.ru",
+      "importable": true
+    },
+    {
+      "id": "plov_povarenok",
+      "name": "Рецепт с povarenok.ru",
+      "url": "https://www.povarenok.ru/recipes/show/184410/",
+      "source": "povarenok.ru",
+      "importable": false
+    }
+  ],
+  "fallback_recipe": {
+    "name": "Салат из яблок",
+    "steps": [
+      {
+        "ingredients": [
+          {
+            "food": {
+              "name": "Яблоко"
+            },
+            "amount": 500,
+            "unit": {
+              "name": "г"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

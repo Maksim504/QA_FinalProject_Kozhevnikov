@@ -1,0 +1,16 @@
+# Environment
+.env
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+allure-results/
+allure-report/
+screenshots/*
+!screenshots/results_terminal.png
+!screenshots/results_allure.png
+data/cookies.json
+.DS_Store
+.idea/
+.vscode/
+CREDENTIALS.md
