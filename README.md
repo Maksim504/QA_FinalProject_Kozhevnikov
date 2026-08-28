@@ -54,7 +54,7 @@ pytest -m api -v
 # только UI-тесты
 pytest -m ui -v
 
-# с генерацией Allure-ерзультатов
+# с генерацией Allure-результатов
 pytest --alluredir=allure-results
 
 # открыть Allure-отчёт
@@ -166,6 +166,7 @@ QA_FinalProject/
 │   ├── test_api_delete_recipe.py              # API: удаление рецепта
 │   ├── test_api_create_recipe_with_ingredients.py  # API: рецепт с ингредиентами
 │   ├── test_api_delete_nonexistent_recipe.py  # API: ошибка при удалении несуществующего
+│   ├── test_api_invalid_data.py               # API: невалидные данные → 400
 │   ├── test_api_import_recipe.py              # API: импорт по ссылке
 │   ├── test_api_create_and_delete_meal_plan.py # API: создание/удаление плана
 │   ├── test_ui_login.py                       # UI: вход в приложение
@@ -199,6 +200,8 @@ QA_FinalProject/
 - `test_delete_recipe` — удаление рецепта → рецепт больше не возвращается;
 - `test_create_recipe_with_ingredients` — создание рецепта с ингредиентами и проверка данных;
 - `test_delete_nonexistent_recipe_raises` — обработка ошибки при удалении несуществующего рецепта;
+- `test_create_recipe_invalid_data_returns_400` — невалидный рецепт (без обязательного поля `name`)
+  отклоняется сервером с кодом 400;
 - `test_import_recipe_from_url` — импорт рецепта по ссылке из тестовых данных;
 - `test_create_and_delete_meal_plan` — создание плана питания, получение по id, удаление.
 
