@@ -1,0 +1,131 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  api-tests:
+    name: API-tests
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      TANDOOR_TOKEN: ${{ secrets.TANDOOR_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run API tests
+        run: pytest -m api -v --alluredir=allure-results
+
+      - name: Upload allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-api
+          path: allure-results
+          retention-days: 5
+
+  ui-tests:
+    name: UI-tests
+    needs: api-tests
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      TANDOOR_TOKEN: ${{ secrets.TANDOOR_TOKEN }}
+      TANDOOR_USERNAME: ${{ secrets.TANDOOR_USERNAME }}
+      TANDOOR_PASSWORD: ${{ secrets.TANDOOR_PASSWORD }}
+      CI: "true"
+      SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+    services:
+      selenium:
+        image: selenium/standalone-chrome
+        options: --shm-size=2gb
+        ports:
+          - 4444:4444
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run UI tests
+        run: pytest -m ui -v --alluredir=allure-results
+
+      - name: Upload allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-ui
+          path: allure-results
+          retention-days: 5
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: screenshots/
+          if-no-files-found: ignore
+          retention-days: 5
+
+  allure-report:
+    name: Allure-report
+    needs: [api-tests, ui-tests]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download api allure results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-api
+          path: allure-results-api
+
+      - name: Download ui allure results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-ui
+          path: allure-results-ui
+
+      - name: Install Allure
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq default-jre-headless wget tar
+          wget -q https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.tgz
+          tar -xzf allure-2.29.0.tgz
+          echo "$PWD/allure-2.29.0/bin" >> "$GITHUB_PATH"
+
+      - name: Generate Allure report
+        run: |
+          mkdir -p allure-results
+          cp -r allure-results-api/* allure-results/
+          cp -r allure-results-ui/* allure-results/
+          allure generate allure-results -o public --clean
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
