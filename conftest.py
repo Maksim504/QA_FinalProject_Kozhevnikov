@@ -149,13 +149,17 @@ def driver(base_url):
     """
     WebDriver: headless Chrome локально.
 
+    По умолчанию браузер запускается в headless-режиме; чтобы увидеть окно,
+    задайте переменную окружения HEADLESS=0.
+
     В CI (переменная окружения CI) подключается к удалённому Selenium
     (адрес читается из SELENIUM_REMOTE_URL) — реализация для Задания №4.
     """
     from selenium import webdriver
 
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless=new")
+    if os.getenv("HEADLESS", "1") != "0":
+        options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--ignore-certificate-errors")
