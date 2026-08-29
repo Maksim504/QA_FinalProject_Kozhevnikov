@@ -9,14 +9,14 @@ from pages.login_page import LoginPage
 pytestmark = pytest.mark.ui
 
 
-@allure.step("Вход в приложение")
 def test_ui_login(driver, base_url, ui_username, ui_password):
     """
     Сценарий: форма входа Tandoor принимает username/пароль,
     после входа в навигации отображается имя пользователя.
     """
-    # очищаем cookies, чтобы гарантированно попасть на форму входа
-    driver.delete_all_cookies()
+    with allure.step("Вход в приложение"):
+        # очищаем cookies, чтобы гарантированно попасть на форму входа
+        driver.delete_all_cookies()
 
     with allure.step("Открыть страницу авторизации и ввести данные"):
         from pages.welcome_page import WelcomePage

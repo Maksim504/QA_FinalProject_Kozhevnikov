@@ -32,12 +32,16 @@ class LoginPage(BasePage):
         self.wait_for_visible(self.USERNAME_FIELD)
         return self
 
-    @allure.step("Выполнить вход под пользователем {username}")
     def login(self, username: str, password: str) -> "LoginPage":
-        """Заполняет форму ({username}/{password}) и нажимает «Войти»."""
-        self.type_text(self.USERNAME_FIELD, username, clear=False)
-        self.type_text(self.PASSWORD_FIELD, password, clear=False)
-        self.click(self.SUBMIT_BUTTON)
+        """Заполняет форму ({username}) и нажимает «Войти».
+
+        Шаг оформлен через контекстный менеджер, чтобы пароль не попадал
+        в параметры Allure-отчёта (отчёт публикуется на GitHub Pages).
+        """
+        with allure.step(f"Выполнить вход под пользователем '{username}'"):
+            self.type_text(self.USERNAME_FIELD, username, clear=False)
+            self.type_text(self.PASSWORD_FIELD, password, clear=False)
+            self.click(self.SUBMIT_BUTTON)
         return self
 
     @allure.step("Дождаться окончания авторизации")
