@@ -13,7 +13,7 @@ class LoginPage(BasePage):
     """
     Логин-страница (форма входа).
 
-    Поле логина ожидает USERNAME (не email): TANDOOR_UI_USERNAME=Максим.
+    Поле логина ожидает USERNAME (не email): TANDOOR_UI_USERNAME=your_username.
     После входа приложение переводит пользователя на главную страницу.
     """
 

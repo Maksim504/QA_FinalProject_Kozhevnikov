@@ -112,7 +112,7 @@ def base_url() -> str:
 @pytest.fixture(scope="session")
 def ui_username() -> str:
     """Логин (username) для UI-входа; в .env: TANDOOR_UI_USERNAME."""
-    return os.getenv("TANDOOR_UI_USERNAME", "Максим")
+    return os.getenv("TANDOOR_UI_USERNAME")
 
 
 @pytest.fixture(scope="session")

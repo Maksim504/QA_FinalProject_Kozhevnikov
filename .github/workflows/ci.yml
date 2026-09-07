@@ -42,6 +42,7 @@ jobs:
       TANDOOR_TOKEN: ${{ secrets.TANDOOR_TOKEN }}
       TANDOOR_USERNAME: ${{ secrets.TANDOOR_USERNAME }}
       TANDOOR_PASSWORD: ${{ secrets.TANDOOR_PASSWORD }}
+      TANDOOR_UI_USERNAME: ${{ secrets.TANDOOR_UI_USERNAME }}
       CI: "true"
       SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
     services:

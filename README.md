@@ -116,7 +116,7 @@ UI-джоба стартует только после успешного зав
 
 Секреты для CI задаются в **Settings → Secrets and variables → Actions**
 (те же переменные, что в `.env`): `BASE_URL`, `TANDOOR_TOKEN`,
-`TANDOOR_USERNAME`, `TANDOOR_PASSWORD`. Для публикации отчёта
+`TANDOOR_USERNAME`, `TANDOOR_PASSWORD`, `TANDOOR_UI_USERNAME`. Для публикации отчёта
 в **Settings → Pages** источник должен быть **GitHub Actions**.
 
 ---
@@ -137,7 +137,7 @@ BASE_URL=https://tandoor.vs1.srv.eduson.tv
 TANDOOR_TOKEN=your_token_here
 TANDOOR_USERNAME=your_email_here
 TANDOOR_PASSWORD=your_password_here
-TANDOOR_UI_USERNAME=Максим
+TANDOOR_UI_USERNAME=your_username
 ```
 
 > `.env` обязательно добавить в `.gitignore`.
